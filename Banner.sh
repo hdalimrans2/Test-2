@@ -104,12 +104,12 @@ install_dependencies() {
 
 # --- Function to install font from local file ---
 install_local_font() {
-    echo -e "${A} ${c}Looking for local 'nxfont.ttf' file...${n}"
-    local source_font="nxfont.ttf"
-    local dest_path="$HOME/.termux/nxfont.ttf"
+    echo -e "${A} ${c}Looking for local 'font.ttf' file...${n}"
+    local source_font="font.ttf"
+    local dest_path="$HOME/.termux/font.ttf"
 
     if [ -f "$source_font" ]; then
-        echo -e "${A} ${g}Found 'nxfont.ttf'. Installing it...${n}"
+        echo -e "${A} ${g}Found 'font.ttf'. Installing it...${n}"
         mkdir -p "$HOME/.termux"
         cp "$source_font" "$dest_path"
 
@@ -120,8 +120,8 @@ install_local_font() {
             echo -e "${E} ${r}Failed to copy font. Icons may not appear correctly.${n}"
         fi
     else
-        echo -e "${E} ${r}Error: 'nxfont.ttf' not found."
-        echo -e "${y}   Please place your font file in the same directory as this script and name it 'nxfont.ttf'.${n}"
+        echo -e "${E} ${r}Error: 'font.ttf' not found."
+        echo -e "${y}   Please place your font file in the same directory as this script and name it 'font.ttf'.${n}"
         exit 1
     fi
     sleep 1
