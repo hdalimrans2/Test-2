@@ -209,7 +209,7 @@ show_banner() {
 
 # --- Pre-command function for the new multi-line prompt ---
 precmd() {
-    echo -e "\n\033[1;36m┏─[\033[1;34m\${NICKNAME}\033[1;33m〄\033[1;32m\${BANNER_TEXT}\033[1;36m]-[\$(pwd | sed "s!^/data/data/com.termux/files/home!~!")]"
+    echo -e "\n\033[1;36m┏─[\033[1;91m\${NICKNAME}\033[1;33m〄\033[1;32m\${BANNER_TEXT}\033[1;36m]-[\$(pwd | sed "s!^/data/data/com.termux/files/home!~!")]"
     echo -en "\033[1;36m┗"
 }
 
