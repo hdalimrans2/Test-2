@@ -33,7 +33,6 @@ handle_password() {
         if [ "$user_pass" == "$correct_pass" ]; then
             echo -e "${A} ${g}Password Correct! Proceeding...${n}"
             echo -e "${A} ${c}Opening Author's YouTube Channel...${n}"
-            # Fix: use termux-open if available
             if command -v termux-open &>/dev/null; then
                 termux-open "https://youtube.com/@hdshortvideo69"
             else
@@ -127,7 +126,6 @@ install_local_font() {
     else
         echo -e "${E} ${r}Error: 'nxfont.ttf' not found."
         echo -e "${y}   Please place your font file in the same directory as this script and name it 'nxfont.ttf'.${n}"
-        # Not exiting because it's not critical
     fi
     sleep 1
 }
@@ -149,8 +147,9 @@ setup_environment() {
         fi
     done
 
+    # Nickname prompt in red
     local NICKNAME
-    read -p "$(echo -e "${g}[+] Enter your Nickname for the prompt: ${y}")" NICKNAME
+    read -p "$(echo -e "${r}[+] Enter your Nickname for the prompt: ${y}")" NICKNAME
     echo
 
     # --- Install Oh My Zsh and plugins ---
@@ -167,7 +166,7 @@ setup_environment() {
         fi
     } &> /dev/null
 
-    # --- Create .zshrc file ---
+    # --- Create .zshrc file (with borderless banner) ---
     echo -e "${A} ${c}Creating '.zshrc' configuration file...${n}"
     cat <<EOF > "$HOME/.zshrc"
 # Path to your oh-my-zsh installation.
@@ -188,34 +187,20 @@ alias ls='lsd --icon=auto'
 alias la='lsd -a --icon=auto'
 alias ll='lsd -l --icon=auto'
 
-# --- Improved Banner Function ---
+# --- Borderless Banner Function ---
 show_banner() {
     clear
     tput civis # Hide cursor
 
     local width=\$(tput cols)
-    local border_color='\033[1;36m'
-    local nc='\033[0m'
     local welcome_color='\033[1;92m'
     local name_color='\033[1;93m'
+    local nc='\033[0m'
 
-    # 1. Draw the box
-    echo -e "\${border_color}╔\$(printf '═%.0s' \$(seq 1 \$((width-2))))╗\${nc}"
-    for i in {1..7}; do
-        echo -e "\${border_color}║\$(printf ' %.0s' \$(seq 1 \$((width-2))))║\${nc}"
-    done
-    local tool_info="[Σ] Xhack Net"
-    local info_len=\${#tool_info}
-    local padding=\$(( (width - 2 - info_len) / 2 ))
-    echo -e "\${border_color}║\$(printf ' %.0s' \$(seq 1 \$padding))\${welcome_color}\${tool_info}\${border_color}\$(printf ' %.0s' \$(seq 1 \$((width - 2 - padding - info_len))))║\${nc}"
-    echo -e "\${border_color}╚\$(printf '═%.0s' \$(seq 1 \$((width-2))))╝\${nc}"
+    # Print the figlet banner centered
+    figlet -c -f ASCII-Shadow -w "\$width" "\${BANNER_TEXT}" | lolcat
 
-    # 2. Position cursor and print banner inside the box
-    tput cup 2 1
-    figlet -c -f ASCII-Shadow -w \$((width - 4)) "\${BANNER_TEXT}" | lolcat
-
-    # 3. Position cursor below the box and print welcome message
-    tput cup 11 0
+    # Print welcome message
     echo -e " \${welcome_color}Welcome to Xhack Net, '\${name_color}\${BANNER_TEXT}\${welcome_color}'!${nc}"
     echo
 
